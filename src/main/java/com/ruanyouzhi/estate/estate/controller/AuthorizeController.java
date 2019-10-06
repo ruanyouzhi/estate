@@ -1,5 +1,7 @@
 package com.ruanyouzhi.estate.estate.controller;
 
+import com.ruanyouzhi.estate.estate.Mapper.UserMapper;
+import com.ruanyouzhi.estate.estate.Model.User;
 import com.ruanyouzhi.estate.estate.dto.GitHubUser;
 import com.ruanyouzhi.estate.estate.dto.accessTokenDto;
 import com.ruanyouzhi.estate.estate.provider.GitHubProvider;
@@ -11,11 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
     @Autowired
     private GitHubProvider gitHubProvider;
+    @Autowired
+    private UserMapper userMapper;
     @Value("${github.client.id}")
     private String clientId;
     @Value("${github.client.secret}")
@@ -26,17 +31,30 @@ public class AuthorizeController {
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request){
+        System.out.println(state);
         accessTokenDto a = new accessTokenDto();
-        a.setClient_id("10c78b0a763c6a093d41");
-        a.setClient_secret("0c947d6cd42fc1217fe96fe689c0f336c19c99c1");
+        a.setClient_id(clientId);
+        a.setClient_secret(clientSecret);
         a.setCode(code);
-        a.setRedirect_uri("http://localhost:8080/callback");
+        a.setRedirect_uri(redirectUrl);
         a.setState(state);
         String accessToken=gitHubProvider.getAccessToken(a);
-        GitHubUser user = gitHubProvider.getUser(accessToken);
-        System.out.println(user.getId());
-        if(user!=null){
-            request.getSession().setAttribute("user",user);
+        System.out.println(accessToken);
+        GitHubUser hubUser = gitHubProvider.getUser(accessToken);
+        System.out.println(hubUser.getId());
+        if(hubUser!=null){
+            /*
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setAccountID(String.valueOf(hubUser.getId()));
+            user.setName(hubUser.getName());
+            user.setGmtCreat(System.currentTimeMillis());
+            user.getGmtModified(user.getGmtCreat());
+
+            userMapper.insert(user);
+
+             */
+            request.getSession().setAttribute("hubUser",hubUser);
             return "redirect:/";
         } else {
             return "redirect:/";
