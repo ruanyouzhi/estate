@@ -25,13 +25,12 @@ public class AuthorizeController {
     private String clientId;
     @Value("${github.client.secret}")
     private String clientSecret;
-    @Value("${github.redirect_uri}")
+    @Value("${github.redirect_url}")
     private String redirectUrl;
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request){
-        System.out.println(state);
         accessTokenDto a = new accessTokenDto();
         a.setClient_id(clientId);
         a.setClient_secret(clientSecret);
@@ -39,22 +38,18 @@ public class AuthorizeController {
         a.setRedirect_uri(redirectUrl);
         a.setState(state);
         String accessToken=gitHubProvider.getAccessToken(a);
-        System.out.println(accessToken);
         GitHubUser hubUser = gitHubProvider.getUser(accessToken);
         System.out.println(hubUser.getId());
         if(hubUser!=null){
-            /*
             User user = new User();
             user.setToken(UUID.randomUUID().toString());
             user.setAccountID(String.valueOf(hubUser.getId()));
             user.setName(hubUser.getName());
-            user.setGmtCreat(System.currentTimeMillis());
-            user.getGmtModified(user.getGmtCreat());
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
 
             userMapper.insert(user);
-
-             */
-            request.getSession().setAttribute("hubUser",hubUser);
+            request.getSession().setAttribute("user",hubUser);
             return "redirect:/";
         } else {
             return "redirect:/";

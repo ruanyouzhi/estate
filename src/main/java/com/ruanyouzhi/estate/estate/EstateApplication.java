@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.ruanyouzhi.estate.estate.Mapper")
+@MapperScan("com.*.estate.estate.Mapper")
 public class EstateApplication {
 
     public static void main(String[] args) {
