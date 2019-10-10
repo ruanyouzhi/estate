@@ -1,9 +1,10 @@
-package com.ruanyouzhi.estate.estate.Model;
+package com.ruanyouzhi.estate.estate.dto;
 
+import com.ruanyouzhi.estate.estate.Model.User;
 import lombok.Data;
 
 @Data
-public class Question {
+public class questionDTO {
     private Integer id;
     private Integer creator;
     private String title;
@@ -14,4 +15,5 @@ public class Question {
     private Integer commentCount;
     private Integer viewCount;
     private Integer likeCount;
+    private User user;
 }

@@ -49,16 +49,19 @@ public class publishController {
 
         Cookie[] cookies = request.getCookies();
         User user=null;//可以直接定义为空
-        for (Cookie cookie : cookies) {
-            if(cookie.getName().equals("token")){
-               String token=cookie.getValue();
-               user=userMapper.findByToken(token);
-               if(user!=null){
-                   request.getSession().setAttribute("user",user);
-               }
-               break;
+        if(cookies!=null&&cookies.length!=0){
+            for (Cookie cookie : cookies) {
+                if(cookie.getName().equals("token")){
+                    String token=cookie.getValue();
+                    user=userMapper.findByToken(token);
+                    if(user!=null){
+                        request.getSession().setAttribute("user",user);
+                    }
+                    break;
+                }
             }
         }
+
         if(user==null){
             model.addAttribute("error","用户未登录");
             return "publish";
