@@ -14,4 +14,6 @@ public interface UserMapper {
     User findByToken(@Param("token") String token);//如果是类，可以自动注入，如果不是，需要@param一下
     @Select("select * from user where id=#{id}")
     User findById(@Param("id") int id);
+    @Select("select count(1) from question")
+    Integer count();
 }
