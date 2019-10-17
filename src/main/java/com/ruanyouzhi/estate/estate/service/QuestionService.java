@@ -1,11 +1,13 @@
 package com.ruanyouzhi.estate.estate.service;
 
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.ruanyouzhi.estate.estate.Mapper.QuestionMapper;
 import com.ruanyouzhi.estate.estate.Mapper.UserMapper;
 import com.ruanyouzhi.estate.estate.Model.Question;
 import com.ruanyouzhi.estate.estate.Model.User;
 import com.ruanyouzhi.estate.estate.dto.paginationDTO;
 import com.ruanyouzhi.estate.estate.dto.questionDTO;
+import com.sun.org.apache.regexp.internal.REUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,5 +65,14 @@ public class QuestionService {
         }
         pagination.setQuestions(questionDTOList);
         return pagination;
+    }
+
+    public questionDTO getById(Integer id) {
+        questionDTO questionDTO=new questionDTO();
+        Question question=questionMapper.getById(id);
+        BeanUtils.copyProperties(question,questionDTO);
+        User user=userMapper.findById(question.getCreator());
+        questionDTO.setUser(user);
+        return questionDTO;
     }
 }
