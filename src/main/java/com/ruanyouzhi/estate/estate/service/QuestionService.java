@@ -7,6 +7,8 @@ import com.ruanyouzhi.estate.estate.Model.QuestionExample;
 import com.ruanyouzhi.estate.estate.Model.User;
 import com.ruanyouzhi.estate.estate.dto.paginationDTO;
 import com.ruanyouzhi.estate.estate.dto.questionDTO;
+import com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode;
+import com.ruanyouzhi.estate.estate.exception.CustomizeException;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +77,9 @@ public class QuestionService {
     public questionDTO getById(Integer id) {
         questionDTO questionDTO=new questionDTO();
         Question question=questionMapper.selectByPrimaryKey(id);
+        if(question==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         BeanUtils.copyProperties(question,questionDTO);
         User user=userMapper.selectByPrimaryKey(question.getCreator());
         questionDTO.setUser(user);
@@ -94,7 +99,10 @@ public class QuestionService {
             updateQuestion.setTag(question.getTag());
             QuestionExample example= new QuestionExample();
             example.createCriteria().andCreatorEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion,new QuestionExample());
+            int updated=questionMapper.updateByExampleSelective(updateQuestion,new QuestionExample());
+            if(updated!=1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }

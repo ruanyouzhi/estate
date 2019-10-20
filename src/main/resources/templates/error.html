@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>estate</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/static/css/estate.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="jumbotron">
+    <h1>出错了!</h1>
+    <p th:text="${message}">出了点小问题，稍等片刻，马上回来</p>
+    <p><a class="btn btn-primary btn-lg" href="/" role="button">回到首页</a></p>
+</div>
+</body>
+</html>
