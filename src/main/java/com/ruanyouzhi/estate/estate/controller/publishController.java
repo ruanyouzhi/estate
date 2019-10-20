@@ -1,9 +1,8 @@
 package com.ruanyouzhi.estate.estate.controller;
 
-import com.ruanyouzhi.estate.estate.Mapper.QuestionMapper;
-import com.ruanyouzhi.estate.estate.Mapper.UserMapper;
 import com.ruanyouzhi.estate.estate.Model.Question;
 import com.ruanyouzhi.estate.estate.Model.User;
+import com.ruanyouzhi.estate.estate.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class publishController {
     @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
+    private  QuestionService questionService;
     @GetMapping("/publish")
     public String publish(){
         return "publish";
@@ -56,10 +53,8 @@ public class publishController {
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModified(question.getGmtCreate());
         question.setCreator(user.getId());
-        questionMapper.create(question);
+        questionService.createOrUpdate(question);
         return "redirect:/";
     }
 }

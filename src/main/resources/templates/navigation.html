@@ -30,7 +30,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="/profile/questions">我的问题</a></li>
                             <li><a href="#">个人资料</a></li>
-                            <li><a href="#">退出登录</a></li>
+                            <li><a href="/logout">退出登录</a></li>
                         </ul>
                     </li>
                     <li th:if="${session.user==null}"><a href="https://github.com/login/oauth/authorize?client_id=10c78b0a763c6a093d41&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a></li>
