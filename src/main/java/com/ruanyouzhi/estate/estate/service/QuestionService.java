@@ -1,5 +1,6 @@
 package com.ruanyouzhi.estate.estate.service;
 
+import com.ruanyouzhi.estate.estate.Mapper.QuestionExtMapper;
 import com.ruanyouzhi.estate.estate.Mapper.QuestionMapper;
 import com.ruanyouzhi.estate.estate.Mapper.UserMapper;
 import com.ruanyouzhi.estate.estate.Model.Question;
@@ -9,6 +10,7 @@ import com.ruanyouzhi.estate.estate.dto.paginationDTO;
 import com.ruanyouzhi.estate.estate.dto.questionDTO;
 import com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode;
 import com.ruanyouzhi.estate.estate.exception.CustomizeException;
+import oracle.jrockit.jfr.Recording;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ public class QuestionService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public paginationDTO list(Integer page, Integer size) {
         Integer totalPage;
@@ -47,7 +51,7 @@ public class QuestionService {
         return pagination;
     }
 
-    public paginationDTO listByUserId(Integer userId, Integer page, Integer size) {
+    public paginationDTO listByUserId(long userId, Integer page, Integer size) {
         Integer totalPage;
         paginationDTO pagination = new paginationDTO();
         QuestionExample example = new QuestionExample();
@@ -74,7 +78,7 @@ public class QuestionService {
         return pagination;
     }
 
-    public questionDTO getById(Integer id) {
+    public questionDTO getById(long id) {
         questionDTO questionDTO=new questionDTO();
         Question question=questionMapper.selectByPrimaryKey(id);
         if(question==null){
@@ -87,8 +91,12 @@ public class QuestionService {
     }
     public void createOrUpdate(Question question){
         if(question.getId()==null){
+            //创建
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setViewCount(0);
+            question.setLikeCount(0);
+            question.setCommentCount(0);
             questionMapper.insert(question);
         }else {
             question.setGmtModified(System.currentTimeMillis());
@@ -104,5 +112,13 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    public void incView(long id) {
+        Question question=new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExtMapper.incView(question);
+
     }
 }
