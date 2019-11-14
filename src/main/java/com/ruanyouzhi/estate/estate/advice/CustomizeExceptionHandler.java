@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 //默认的通用的异常处理
-@ControllerAdvice
+//@ControllerAdvice
 public class CustomizeExceptionHandler {
     @ExceptionHandler(Exception.class)
     Object handleControllerException(HttpServletRequest request, Throwable e, Model model,

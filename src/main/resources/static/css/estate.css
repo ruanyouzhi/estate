@@ -14,6 +14,9 @@ body{
     width: 39px;
     height: 40px;
 }
+.media-body{
+    padding-top: 11px;
+}
 .text-desc{
     font-size: 12px;
     font-weight: normal;
@@ -22,10 +25,40 @@ body{
 .profile .section{
     margin-top: 15px;
 }
+.question-title{
+    margin-top: 25px;
+}
 .estate-menu{
     font-size: 12px;
     color: #999;
 }
 .jumbotron{
     margin: 50px;
+}
+.comment{
+    margin: 10px 0px;
+}
+.btn-comment{
+    float: right;
+    margin-bottom: 10px;
+}
+.comment-sp{
+    margin-top: 0;
+}
+.comments{
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+.menu{
+    color: #999;
+    margin-top: 5px;
+}
+.menu .icon{
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.menu .icon:hover{
+    color: #1b6d85;
 }
