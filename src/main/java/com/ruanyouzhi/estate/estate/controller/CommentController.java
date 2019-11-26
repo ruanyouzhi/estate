@@ -2,17 +2,18 @@ package com.ruanyouzhi.estate.estate.controller;
 import com.ruanyouzhi.estate.estate.Model.Comment;
 import com.ruanyouzhi.estate.estate.Model.User;
 import com.ruanyouzhi.estate.estate.dto.CommentCreateDTO;
+import com.ruanyouzhi.estate.estate.dto.CommentDTO;
 import com.ruanyouzhi.estate.estate.dto.ResultDTO;
+import com.ruanyouzhi.estate.estate.enums.CommentTypeEnum;
 import com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode;
 import com.ruanyouzhi.estate.estate.service.CommentService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -40,5 +41,11 @@ public class CommentController {
         comment.setLikeCount(0L);
         commentService.insert(comment);
         return ResultDTO.okOf();
+     }
+     @ResponseBody
+     @RequestMapping(value = "/comment/{id}", method = RequestMethod.GET)
+     public ResultDTO<List> comments(@PathVariable(name = "id") long id){
+         List<CommentDTO> commentDTOs = commentService.ListByTargetId(id, CommentTypeEnum.COMMENT);
+         return ResultDTO.okOf(commentDTOs);
      }
 }

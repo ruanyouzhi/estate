@@ -1,5 +1,6 @@
 package com.ruanyouzhi.estate.estate.dto;
 
+import com.ruanyouzhi.estate.estate.Model.Comment;
 import com.ruanyouzhi.estate.estate.Model.User;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class CommentDTO {
     private Long likeCount;
     private String content;
     private User user;
+    private Integer commentCount;
 }

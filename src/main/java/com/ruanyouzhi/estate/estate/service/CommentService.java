@@ -1,10 +1,6 @@
 package com.ruanyouzhi.estate.estate.service;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
-import com.ruanyouzhi.estate.estate.Mapper.CommentMapper;
-import com.ruanyouzhi.estate.estate.Mapper.QuestionExtMapper;
-import com.ruanyouzhi.estate.estate.Mapper.QuestionMapper;
-import com.ruanyouzhi.estate.estate.Mapper.UserMapper;
+import com.ruanyouzhi.estate.estate.Mapper.*;
 import com.ruanyouzhi.estate.estate.Model.*;
 import com.ruanyouzhi.estate.estate.dto.CommentDTO;
 import com.ruanyouzhi.estate.estate.enums.CommentTypeEnum;
@@ -24,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 
 public class CommentService {
+    @Autowired
+    private CommentExtMapper commentExtMapper;
     @Autowired
     private CommentMapper commentMapper;
     @Autowired
@@ -47,6 +45,11 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insert(comment);
+            /*增加评论数*/
+            Comment parentComment=new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(parentComment);
         } else {
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -60,10 +63,10 @@ public class CommentService {
         }
     }
 
-    public List<CommentDTO> ListByQuestionId(long id) {
+    public List<CommentDTO> ListByTargetId(long id, CommentTypeEnum type) {
         CommentExample commentExample=new CommentExample();
         commentExample.createCriteria().andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(type.getType());
         commentExample.setOrderByClause("gmt_modified desc");
         List<Comment> comments = commentMapper.selectByExample(commentExample);
         if(comments.size()==0){
