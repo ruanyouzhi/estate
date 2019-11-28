@@ -39,7 +39,9 @@ public class QuestionService {
         pagination.setPagination(page,totalPage);
         Integer offset=size*(page-1);
         List<questionDTO> questionDTOList=new ArrayList<>();//?
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample example=new QuestionExample();
+        example.setOrderByClause("gmt_create desc");
+        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
         for (Question question : questionList) {
             questionDTO questionDTO = new questionDTO();
             BeanUtils.copyProperties(question,questionDTO);//用一个类给另一个类赋值

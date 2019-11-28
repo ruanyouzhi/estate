@@ -9,4 +9,5 @@ public class CommentCreateDTO {
     private long parentId;
     private int type;
     private String content;
+    private int commentCount;
 }
