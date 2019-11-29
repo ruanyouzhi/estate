@@ -11,13 +11,18 @@ import com.ruanyouzhi.estate.estate.dto.questionDTO;
 import com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode;
 import com.ruanyouzhi.estate.estate.exception.CustomizeException;
 import oracle.jrockit.jfr.Recording;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.standard.expression.Each;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -122,5 +127,24 @@ public class QuestionService {
         question.setViewCount(1);
         questionExtMapper.incView(question);
 
+    }
+
+    public List<questionDTO> selectRelated(questionDTO questionDTO) {
+        if(StringUtils.isBlank(questionDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String []tags=StringUtils.split(questionDTO.getTag(),"，|,");
+        //将string 类型的tags转为arrays类型，再添加分隔符。
+        String regexpTag= Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question=new Question();
+        question.setId(questionDTO.getId());
+        question.setTag(regexpTag);
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<com.ruanyouzhi.estate.estate.dto.questionDTO> questionDTOS = questions.stream().map(q -> {
+            com.ruanyouzhi.estate.estate.dto.questionDTO questionDTO1 = new questionDTO();
+            BeanUtils.copyProperties(q,questionDTO1);
+            return questionDTO1;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }

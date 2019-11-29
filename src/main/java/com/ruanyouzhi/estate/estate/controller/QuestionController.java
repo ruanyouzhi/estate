@@ -1,5 +1,6 @@
 package com.ruanyouzhi.estate.estate.controller;
 
+import com.ruanyouzhi.estate.estate.Model.Question;
 import com.ruanyouzhi.estate.estate.dto.CommentDTO;
 import com.ruanyouzhi.estate.estate.dto.questionDTO;
 import com.ruanyouzhi.estate.estate.enums.CommentTypeEnum;
@@ -24,10 +25,12 @@ public class QuestionController {
                            Model model){
 
         questionDTO question=questionService.getById(id);
+        List<questionDTO> relatedQuestions= questionService.selectRelated(question);
         List<CommentDTO>commentDTOList=commentService.ListByTargetId(question.getId(), CommentTypeEnum.QUESTION);
         questionService.incView(id);
         model.addAttribute("question",question);
         model.addAttribute("comments",commentDTOList);
+        model.addAttribute("relatedQuestions",relatedQuestions);
         return "question";
     }
 }
