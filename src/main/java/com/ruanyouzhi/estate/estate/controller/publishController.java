@@ -3,9 +3,12 @@ package com.ruanyouzhi.estate.estate.controller;
 import com.ruanyouzhi.estate.estate.Mapper.QuestionMapper;
 import com.ruanyouzhi.estate.estate.Model.Question;
 import com.ruanyouzhi.estate.estate.Model.User;
+import com.ruanyouzhi.estate.estate.cache.TagCache;
+import com.ruanyouzhi.estate.estate.dto.TagDTO;
 import com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode;
 import com.ruanyouzhi.estate.estate.exception.CustomizeException;
 import com.ruanyouzhi.estate.estate.service.QuestionService;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.internal.engine.messageinterpolation.parser.ELState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,12 +40,14 @@ public class publishController {
             model.addAttribute("title",question.getTitle());
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
+            model.addAttribute("tags", TagCache.get());
         }
 
         return "publish";
     }
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(Model model) {
+            model.addAttribute("tags", TagCache.get());
             return "publish";
         }
     @PostMapping("/publish")
@@ -58,17 +63,22 @@ public class publishController {
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
-
+        model.addAttribute("tags", TagCache.get());
         //此部分判断是否提交正确
         if(title==null||title==""){
             model.addAttribute("error","标题不能为空");
-            return publish();
+            return "publish";
         } if(description==null||description==""){
             model.addAttribute("error","问题描述不能为空");
-            return publish();
+            return "publish";
         } if(tag==null||tag==""){
             model.addAttribute("error","标签不能为空");
-            return publish();
+            return "publish";
+        }
+        String invalid = TagCache.filterInvalid(tag);
+        if(StringUtils.isNotBlank(invalid)){
+            model.addAttribute("error","输入非法标签"+invalid);
+            return "publish";
         }
 
         User user=(User)request.getSession().getAttribute("user");

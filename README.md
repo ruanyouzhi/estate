@@ -8,3 +8,17 @@
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 
 找到占用8080的进程netstat -ano|findstr "8080"
+
+
+create table notification
+(
+	id bigint auto_increment,
+	notifier bigint,
+	receiver bigint,
+	outerId bigint not null,
+	type int not null,
+	gmt_create bigint,
+	status int default 0 not null,
+	constraint notification_pk
+		primary key (id)
+);

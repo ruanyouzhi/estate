@@ -36,16 +36,18 @@
                     <div th:id="select-tag" class="publish-tag-tab">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">开发语言</a></li>
-                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">平台框架</a></li>
+                            <li role="presentation" th:each="selectCategory,selectCategoryStat:${tags}" th:class="${selectCategoryStat.first ? 'active':''}">
+                                <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab" data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <div role="tabpanel" class="tab-pane active" id="home">
-                                <span class="label label-info"> <span class="glyphicon glyphicon-tags" onclick="selectTag('java')">java</span></span>
-                            </div>
-                            <div role="tabpanel" class="tab-pane" id="profile">
-                                <span class="label label-info"> <span class="glyphicon glyphicon-tags" onclick="selectTag('spring')">spring</span></span>
+                            <div role="tabpanel" th:each="selectCategory,selectCategoryStat:${tags}" th:class="${selectCategoryStat.first? 'tab-pane active':'tab-pane'}"
+                                 th:id="${selectCategory.categoryName}">
+                                <span class="label label-info" th:each="selectTag:${selectCategory.tags}">
+                                    <span class="glyphicon glyphicon-tags" onclick=selectTag(this) th:data-tag="${selectTag}"
+                                          th:text="${' '+selectTag}"></span>
+                                </span>
                             </div>
                         </div>
                     </div>
