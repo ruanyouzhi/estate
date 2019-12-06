@@ -1,7 +1,10 @@
 package com.ruanyouzhi.estate.estate.controller;
 
+import com.ruanyouzhi.estate.estate.Model.Notification;
 import com.ruanyouzhi.estate.estate.Model.User;
+import com.ruanyouzhi.estate.estate.dto.NotificationDTO;
 import com.ruanyouzhi.estate.estate.dto.paginationDTO;
+import com.ruanyouzhi.estate.estate.service.NotificationService;
 import com.ruanyouzhi.estate.estate.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,11 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class ProfileController {
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private NotificationService notificationService;
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name="action") String action,
                           HttpServletRequest request,
@@ -27,14 +33,18 @@ public class ProfileController {
             return "redirect:/";
         }
         if("questions".equals(action)){
+            paginationDTO pagination = questionService.listByUserId(user.getId(),page, size);
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName","我的提问");
+            model.addAttribute("pagination",pagination);
         } else if("replies".equals(action)){
+            paginationDTO pagination=notificationService.list(user.getId(),page,size);
+            model.addAttribute("pagination",pagination);
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName","最新回复");
         }
-        paginationDTO pagination = questionService.listByUserId(user.getId(),page, size);
-        model.addAttribute("pagination",pagination);
+
         return "profile";
     }
 }
+

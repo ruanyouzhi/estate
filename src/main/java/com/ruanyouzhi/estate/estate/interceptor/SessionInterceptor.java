@@ -3,6 +3,8 @@ package com.ruanyouzhi.estate.estate.interceptor;
 import com.ruanyouzhi.estate.estate.Mapper.UserMapper;
 import com.ruanyouzhi.estate.estate.Model.User;
 import com.ruanyouzhi.estate.estate.Model.UserExample;
+import com.ruanyouzhi.estate.estate.service.NotificationService;
+import com.ruanyouzhi.estate.estate.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,6 +19,10 @@ import java.util.List;
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private QuestionService questionService;
+    @Autowired
+    private NotificationService notificationService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
@@ -29,7 +35,11 @@ public class SessionInterceptor implements HandlerInterceptor {
                     List<User> user = userMapper.selectByExample(userExample);
 
                     if(user.size()!=0){
+                        long questionNum=questionService.questionNum(user.get(0).getId());
+                        long unreadCount=notificationService.unreadCount(user.get(0).getId());
                         request.getSession().setAttribute("user",user.get(0));
+                        request.getSession().setAttribute("questionNum",questionNum);
+                        request.getSession().setAttribute("unreadCount",unreadCount);
                     }
                     break;
                 }

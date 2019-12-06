@@ -3,11 +3,11 @@
 <head>
     <title>estate</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/bootstrap-theme.min.css"/>
-    <link rel="stylesheet" href="static/css/estate.css">
-    <script src="static/js/jquery.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/static/css/estate.css">
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
 
 </head>
 <script type="application/javascript">
@@ -27,7 +27,7 @@
             <h2><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>  发现</h2>
             <hr>
 
-            <div class="media" th:each="question: ${pagination.questions}">
+            <div class="media" th:each="question: ${pagination.data}">
                 <div class="media-left ">
                     <a href="#">
                         <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">

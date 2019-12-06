@@ -35,7 +35,7 @@ public class QuestionService {
 
     public paginationDTO list(Integer page, Integer size) {
         Integer totalPage;
-        paginationDTO pagination = new paginationDTO();
+        paginationDTO<questionDTO> pagination = new paginationDTO<>();
 
         Integer totalCount=(int)questionMapper.countByExample(new QuestionExample());
         totalPage=totalCount%size==0?(totalCount/size):(totalCount/size+1);
@@ -54,13 +54,13 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        pagination.setQuestions(questionDTOList);
+        pagination.setData(questionDTOList);
         return pagination;
     }
 
     public paginationDTO listByUserId(long userId, Integer page, Integer size) {
         Integer totalPage;
-        paginationDTO pagination = new paginationDTO();
+        paginationDTO<questionDTO> pagination = new paginationDTO();
         QuestionExample example = new QuestionExample();
         example.createCriteria().andCreatorEqualTo(userId);
         Integer totalCount= (int)questionMapper.countByExample(example);
@@ -81,7 +81,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        pagination.setQuestions(questionDTOList);
+        pagination.setData(questionDTOList);
         return pagination;
     }
 
@@ -146,5 +146,12 @@ public class QuestionService {
             return questionDTO1;
         }).collect(Collectors.toList());
         return questionDTOS;
+    }
+
+    public long questionNum(Long userId) {
+        QuestionExample example = new QuestionExample();
+        example.createCriteria().andCreatorEqualTo(userId);
+        long questionNum = questionMapper.countByExample(example);
+        return questionNum;
     }
 }
