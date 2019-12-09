@@ -31,4 +31,21 @@
   <select id="selectRelated" parameterType="com.ruanyouzhi.estate.estate.Model.Question" resultMap="BaseResultMap">
      select * from QUESTION where ID!=#{id} and TAG REGEXP #{tag}
   </select>
+    <select id="countBySearch" parameterType="com.ruanyouzhi.estate.estate.dto.QuestionQueryDTO" resultType="java.lang.Integer">
+        select count(*) from QUESTION
+        <where>
+            <if test="search != null">
+                 and TITLE REGEXP #{search}
+            </if>
+        </where>
+    </select>
+    <select id="selectBySearch" parameterType="com.ruanyouzhi.estate.estate.dto.QuestionQueryDTO" resultMap="BaseResultMap">
+        select * from QUESTION
+        <where>
+            <if test="search!=null">
+                 and TITLE REGEXP #{search}
+            </if>
+        </where>
+        order by gmt_create desc limit #{page},#{size}
+    </select>
 </mapper>

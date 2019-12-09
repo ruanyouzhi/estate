@@ -98,3 +98,7 @@ body{
 .menu .icon:hover{
     color: #1b6d85;
 }
+.footer{
+    padding: 10px 33%;
+    color: #666;
+}

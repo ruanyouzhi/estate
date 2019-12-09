@@ -6,6 +6,7 @@ import com.ruanyouzhi.estate.estate.Mapper.UserMapper;
 import com.ruanyouzhi.estate.estate.Model.Question;
 import com.ruanyouzhi.estate.estate.Model.QuestionExample;
 import com.ruanyouzhi.estate.estate.Model.User;
+import com.ruanyouzhi.estate.estate.dto.QuestionQueryDTO;
 import com.ruanyouzhi.estate.estate.dto.paginationDTO;
 import com.ruanyouzhi.estate.estate.dto.questionDTO;
 import com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode;
@@ -33,11 +34,17 @@ public class QuestionService {
     @Autowired
     private QuestionExtMapper questionExtMapper;
 
-    public paginationDTO list(Integer page, Integer size) {
+    public paginationDTO list(String search, Integer page, Integer size) {
+        if(StringUtils.isNotBlank(search)){
+            String []tags=StringUtils.split(search,' ');
+            search=Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
         Integer totalPage;
         paginationDTO<questionDTO> pagination = new paginationDTO<>();
-
-        Integer totalCount=(int)questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount=questionExtMapper.countBySearch(questionQueryDTO);
         totalPage=totalCount%size==0?(totalCount/size):(totalCount/size+1);
         if(page<1)page=1;
         if(page>totalPage)page=totalPage;
@@ -46,7 +53,9 @@ public class QuestionService {
         List<questionDTO> questionDTOList=new ArrayList<>();//?
         QuestionExample example=new QuestionExample();
         example.setOrderByClause("gmt_create desc");
-        List<Question> questionList = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questionList = questionExtMapper.selectBySearch(questionQueryDTO);
         for (Question question : questionList) {
             questionDTO questionDTO = new questionDTO();
             BeanUtils.copyProperties(question,questionDTO);//用一个类给另一个类赋值
@@ -153,5 +162,12 @@ public class QuestionService {
         example.createCriteria().andCreatorEqualTo(userId);
         long questionNum = questionMapper.countByExample(example);
         return questionNum;
+    }
+
+    public List<Question> listTop() {
+        QuestionExample example = new QuestionExample();
+        example.setOrderByClause("view_count desc Limit 5");
+        List<Question> questions = questionMapper.selectByExample(example);
+        return questions;
     }
 }
