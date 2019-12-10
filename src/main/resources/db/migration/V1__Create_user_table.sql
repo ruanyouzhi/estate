@@ -1,13 +1,9 @@
-create table USER
+create table user
 (
-    ID INTEGER auto_increment,
-    ACCOUNT_ID VARCHAR(100),
-    NAME VARCHAR(50),
-    TOKEN CHAR(36),
-    GMT_CREATE BIGINT,
-    GMT_MODIFIED BIGINT,
-    constraint USER_PK
-        primary key (ID)
+    id int auto_increment primary key not null,
+    account_id varchar(100),
+    name varchar(50),
+    token varchar(36),
+    gmt_create bigint,
+    gmt_modified bigint
 );
-
-
