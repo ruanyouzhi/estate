@@ -4,14 +4,11 @@ import com.ruanyouzhi.estate.estate.Mapper.QuestionMapper;
 import com.ruanyouzhi.estate.estate.Model.Question;
 import com.ruanyouzhi.estate.estate.Model.User;
 import com.ruanyouzhi.estate.estate.cache.TagCache;
-import com.ruanyouzhi.estate.estate.dto.TagDTO;
 import com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode;
 import com.ruanyouzhi.estate.estate.exception.CustomizeException;
 import com.ruanyouzhi.estate.estate.service.QuestionService;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.internal.engine.messageinterpolation.parser.ELState;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-
-import static com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode.QUESTION_NOT_FOUND;
 
 @Controller
 public class publishController {

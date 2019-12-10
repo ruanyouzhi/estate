@@ -1,9 +1,7 @@
 package com.ruanyouzhi.estate.estate.controller;
 
 import com.ruanyouzhi.estate.estate.Model.Question;
-import com.ruanyouzhi.estate.estate.dto.QuestionQueryDTO;
 import com.ruanyouzhi.estate.estate.dto.paginationDTO;
-import com.ruanyouzhi.estate.estate.dto.questionDTO;
 import com.ruanyouzhi.estate.estate.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -11,15 +11,11 @@ import com.ruanyouzhi.estate.estate.dto.paginationDTO;
 import com.ruanyouzhi.estate.estate.dto.questionDTO;
 import com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode;
 import com.ruanyouzhi.estate.estate.exception.CustomizeException;
-import oracle.jrockit.jfr.Recording;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.standard.expression.Each;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

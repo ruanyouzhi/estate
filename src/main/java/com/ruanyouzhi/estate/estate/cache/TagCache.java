@@ -3,11 +3,9 @@ package com.ruanyouzhi.estate.estate.cache;
 import com.ruanyouzhi.estate.estate.dto.TagDTO;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.print.attribute.standard.Severity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class TagCache {

@@ -1,6 +1,5 @@
 package com.ruanyouzhi.estate.estate.controller;
 
-import com.ruanyouzhi.estate.estate.Model.Question;
 import com.ruanyouzhi.estate.estate.dto.CommentDTO;
 import com.ruanyouzhi.estate.estate.dto.questionDTO;
 import com.ruanyouzhi.estate.estate.enums.CommentTypeEnum;

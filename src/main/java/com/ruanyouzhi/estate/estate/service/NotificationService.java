@@ -2,10 +2,11 @@ package com.ruanyouzhi.estate.estate.service;
 
 import com.ruanyouzhi.estate.estate.Mapper.NotificationMapper;
 import com.ruanyouzhi.estate.estate.Mapper.UserMapper;
-import com.ruanyouzhi.estate.estate.Model.*;
+import com.ruanyouzhi.estate.estate.Model.Notification;
+import com.ruanyouzhi.estate.estate.Model.NotificationExample;
+import com.ruanyouzhi.estate.estate.Model.User;
 import com.ruanyouzhi.estate.estate.dto.NotificationDTO;
 import com.ruanyouzhi.estate.estate.dto.paginationDTO;
-import com.ruanyouzhi.estate.estate.dto.questionDTO;
 import com.ruanyouzhi.estate.estate.enums.NotificationEnum;
 import com.ruanyouzhi.estate.estate.enums.NotificationStatusEnum;
 import com.ruanyouzhi.estate.estate.exception.CustomizeErrorCode;
@@ -18,8 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class NotificationService {
