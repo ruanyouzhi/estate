@@ -26,7 +26,9 @@
             阅读数：<span th:text="${question.viewCount}"></span>
             </span>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.description}"></div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <p th:text="${question.description}"></p>
+                </div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!--标签-->
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
