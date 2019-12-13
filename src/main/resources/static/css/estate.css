@@ -41,6 +41,9 @@ body{
 .question-me{
     width: 70%;
 }
+.question-p{
+    word-wrap: break-word;
+}
 .publish-tag-tab{
     display: none;
     margin-top: 10px;
