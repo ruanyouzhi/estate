@@ -125,3 +125,42 @@ function selectTag(e) {
 function showSelectTag() {
     $("#select-tag").show();
 }
+function likeComment(e) {
+    var id=e.getAttribute('data-id');
+    var likeCount=e.getAttribute('data-LikeCount');
+    var userId=e.getAttribute('data-user');
+    var questionId=e.getAttribute('data-questionId');
+    var commentator=e.getAttribute('data-commentator');
+    console.log(likeCount);
+    $.ajax({
+        type: "POST",
+        url: "/likeComment",
+        contentType: "application/json",
+        data: JSON.stringify({
+            "id": id,
+            "likeCount": likeCount,
+             "userId":userId,
+             "questionId":questionId,
+            "commentator":commentator
+        }),
+        success: function (response) {
+            if (response.code == 200) {
+                window.location.reload();
+            } else {
+                if (response.code == 2003) {
+                    var conf = confirm(response.message);
+                    if (conf) {
+                        window.open("https://github.com/login/oauth/authorize?client_id=10c78b0a763c6a093d41&redirect_uri=http://localhost:8080/callback&scope=user&state=1");
+                        window.localStorage.setItem("closable", true);
+                    } else {
+                        alert(response.message);
+                    }
+                }else{
+                    alert(response.message);
+                }
+            }
+        },
+        dataType: "json"
+    });
+
+}

@@ -31,7 +31,7 @@
                 </div>
                 <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <!--标签-->
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 question-overflow">
                     <span class="label label-info question-tag" th:each="tag:${question.tag.split(',|，')}">
                         <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
                         <span class="label label-info" th:text="${tag}"></span>
@@ -65,7 +65,12 @@
                             </h5>
                             <div th:text="${comment.content}">回复内容</div>
                             <div class="menu">
-                                <span class="glyphicon glyphicon-thumbs-up icon"></span>
+                                <span th:data-id="${comment.id}" th:data-LikeCount="${comment.likeCount}"
+                                      th:data-user="${session.user.id}" th:data-questionId="${question.id}"
+                                      th:data-commentator="${comment.commentator}" onclick="likeComment(this)">
+                                    <span class="glyphicon glyphicon-thumbs-up icon" th:text="${comment.likeCount}"></span>
+                                </span>
+
                                 <span th:data-id="${comment.id}" onclick="collapseComment(this)">
                                     <span class="glyphicon glyphicon-comment icon" th:text="${comment.commentCount}">
                                     </span>

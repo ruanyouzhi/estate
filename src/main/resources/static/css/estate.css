@@ -29,7 +29,11 @@ body{
     margin-top: 25px;
 }
 .question-tag{
+    overflow-wrap: break-word;
     margin-right: 5px;
+}
+.question-overflow{
+    overflow-wrap: break-word;
 }
 .question-related{
     line-height: 20px;
