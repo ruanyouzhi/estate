@@ -3,11 +3,13 @@
 <head>
     <title>estate</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/static/css/estate.css">
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/estate.js"></script>
 
 </head>
 <body>
@@ -37,7 +39,11 @@
                            th:if="${session.user!=null&&question.creator==session.user.id}">
                             <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
                         </a>
-
+                        <a class="estate-menu"
+                            th:if="${session.user!=null&&question.creator==session.user.id}"
+                            th:href="@{'/deleteQuestion/'+${question.id}}">
+                             <span class="glyphicon glyphicon-trash" aria-hidden="true">删除</span>
+                        </a>
                     </span>
 
                     </div>

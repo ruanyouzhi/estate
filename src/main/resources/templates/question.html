@@ -3,6 +3,7 @@
 <head>
     <title th:text="${question.title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/static/css/estate.css">
@@ -66,7 +67,7 @@
                             <div th:text="${comment.content}">回复内容</div>
                             <div class="menu">
                                 <span th:data-id="${comment.id}" th:data-LikeCount="${comment.likeCount}"
-                                      th:data-user="${session.user.id}" th:data-questionId="${question.id}"
+                                      th:data-user="${session.user==null?0:session.user.id}" th:data-questionId="${question.id}"
                                       th:data-commentator="${comment.commentator}" onclick="likeComment(this)">
                                     <span class="glyphicon glyphicon-thumbs-up icon" th:text="${comment.likeCount}"></span>
                                 </span>

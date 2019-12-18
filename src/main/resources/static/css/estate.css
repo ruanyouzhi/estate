@@ -62,6 +62,13 @@ body{
     font-size: 12px;
     color: #999;
 }
+.estate-delete{
+    border: 0;
+    background-color: transparent;
+    outline: none;
+    font-size: 12px;
+    color: #999;
+}
 .jumbotron{
     margin: 50px;
 }
@@ -102,6 +109,7 @@ body{
 .menu .active{
     color: #1b6d85;
 }
+
 .menu .icon:hover{
     color: #1b6d85;
 }
